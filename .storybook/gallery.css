@@ -1,0 +1,4 @@
+/* Gallery-only layout: the original three 104px theme previews wrap on narrow canvases. */
+.linear-ui-gallery [role='radiogroup'][aria-label='Interface theme'] {
+  flex-wrap: wrap;
+}

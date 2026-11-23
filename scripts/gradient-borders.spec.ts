@@ -1,0 +1,13 @@
+import {test,expect} from '@playwright/test';
+for(const width of [1440,375])for(const theme of ['dark','light'])test(`gradient borders ${width} ${theme}`,async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width,height:1000});
+ await page.goto(`http://localhost:6006/iframe.html?id=linear-ui-surfaces-gradient-borders--comparison-story&viewMode=story&globals=theme:${theme}`);
+ const plain=page.locator('[data-border-example=plain]').first(),gradient=page.locator('[data-border-example=gradient]').first();await expect(gradient).toBeVisible();
+ const metrics=await gradient.evaluate(el=>{const s=getComputedStyle(el);return{image:s.backgroundImage,clip:s.backgroundClip,width:s.borderWidth,color:s.borderColor,radius:s.borderRadius};});
+ expect(metrics.width).toBe('1px');if(theme==='dark'){expect(metrics.image).toContain('linear-gradient');expect(metrics.clip).toContain('padding-box, border-box');expect(metrics.color).toBe('rgba(0, 0, 0, 0)');}else expect(metrics.image).toBe('none');
+ const p=await plain.boundingBox(),g=await gradient.boundingBox();expect(g!.width).toBe(p!.width);expect(g!.height).toBe(p!.height);
+ expect(await page.locator('[data-border-example=gradient]').nth(1).evaluate(el=>getComputedStyle(el).backgroundImage)).toContain('radial-gradient');
+ await page.screenshot({path:`artifacts/gradient-borders/comparison-${width}-${theme}.png`,fullPage:true});
+ for(const label of ['Dialog','Popover','Dropdown']){const trigger=page.getByRole('button',{name:label,exact:true});await trigger.click();const surface=page.locator('[data-gradient-border]').filter({has:page.getByText(label==='Dialog'?'Elevated dialog':label==='Popover'?'Elevated popover':'First action',{exact:true})});await expect(surface).toBeVisible();await page.waitForTimeout(350);await page.screenshot({path:`artifacts/gradient-borders/${label}-${width}-${theme}.png`,fullPage:true});await page.keyboard.press('Escape');await expect(surface).toHaveCount(0);await expect(trigger).toBeFocused();}
+ await page.addInitScript(theme=>localStorage.setItem('linear-ui-theme',theme),theme);await page.goto('http://127.0.0.1:5173/#/navigator');const composer=page.locator('form[data-gradient-surface=composer]');await expect(composer).toBeVisible();const before=await composer.boundingBox();await composer.getByRole('textbox').focus();expect(await composer.evaluate(el=>getComputedStyle(el).borderColor)).not.toBe('rgba(0, 0, 0, 0)');expect((await composer.boundingBox())!.width).toBe(before!.width);await page.screenshot({path:`artifacts/gradient-borders/composer-focus-${width}-${theme}.png`,fullPage:true});expect(errors).toEqual([]);
+});

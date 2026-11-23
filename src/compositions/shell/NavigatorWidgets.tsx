@@ -1,0 +1,20 @@
+import { CalendarDays, Cloud, Clock3, Settings2 } from 'lucide-react';
+import type { WorkspaceViewModel } from '../../core/workspace-contracts';
+import type { Navigate } from '../../app/router';
+import { Button, Checkbox, Popover, PopoverContent, PopoverTrigger } from '../../ui';
+import { formatDate } from './SharedViews';
+
+export function VisibilitySettings({title,items,hidden,onToggle}:{title:string;items:string[];hidden:string[];onToggle:(item:string)=>void}){
+ return <Popover><PopoverTrigger asChild><Button type="button" variant="ghost" iconOnly aria-label={title}><Settings2 className="size-4"/></Button></PopoverTrigger><PopoverContent align="end"><h3 className="mb-3 text-sm font-semibold">{title}</h3><div className="space-y-3">{items.map(item=><Checkbox key={item} label={item} checked={!hidden.includes(item)} onCheckedChange={()=>onToggle(item)}/>)}</div></PopoverContent></Popover>;
+}
+export function NavigatorWidgets({data,navigate,hidden,onToggle}:{data?:WorkspaceViewModel;navigate:Navigate;hidden:string[];onToggle:(item:string)=>void}){
+ const now=Date.now();
+ const classes=(data?.scheduleEvents??[]).filter(item=>Date.parse(item.endsAt)>now).sort((a,b)=>Date.parse(a.startsAt)-Date.parse(b.startsAt)).slice(0,3);
+ const deadlines=(data?.assignments??[]).filter(item=>Date.parse(item.dueAt)>=now).sort((a,b)=>Date.parse(a.dueAt)-Date.parse(b.dueAt)).slice(0,3);
+ return <div className="flex shrink-0 flex-wrap items-center justify-center gap-2 px-4 py-2" aria-label="Виджеты навигатора">
+ {!hidden.includes('Погода')&&<Popover><PopoverTrigger asChild><Button variant="ghost"><Cloud className="size-4"/>Москва · 6°C</Button></PopoverTrigger><PopoverContent><h3 className="font-semibold">Погода в Москве</h3><p className="mt-3 text-2xl">6°C</p><p className="mt-1 text-xs text-text-secondary">Облачно · от 2° до 6°</p><p className="mt-4 text-sm">На улице прохладно — захватите тёплую куртку.</p></PopoverContent></Popover>}
+ {!hidden.includes('Следующая пара')&&<Popover><PopoverTrigger asChild><Button variant="ghost"><CalendarDays className="size-4"/>{classes[0]?formatDate(classes[0].startsAt,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Нет ближайших пар'}</Button></PopoverTrigger><PopoverContent className="w-80 max-w-[calc(100vw-32px)]"><h3 className="mb-3 font-semibold">Ближайшие пары</h3>{classes.length?classes.map(item=><Button key={item.id} variant="ghost" className="h-auto w-full justify-start whitespace-normal py-2 text-left" onClick={()=>navigate('schedule')}><span><span className="block">{item.title}</span><span className="mt-1 block text-xs text-text-secondary">{formatDate(item.startsAt,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · {item.location}</span></span></Button>):<p className="text-xs text-text-secondary">Предстоящих занятий пока нет.</p>}<Button className="mt-3 w-full" variant="subtle" onClick={()=>navigate('schedule')}>Открыть расписание</Button></PopoverContent></Popover>}
+ {!hidden.includes('Дедлайны')&&<Popover><PopoverTrigger asChild><Button variant="ghost"><Clock3 className="size-4"/>Ближайшие дедлайны{deadlines.length? ' · '+deadlines.length:''}</Button></PopoverTrigger><PopoverContent className="w-80 max-w-[calc(100vw-32px)]"><h3 className="mb-3 font-semibold">Ближайшие дедлайны</h3>{deadlines.length?deadlines.map(item=><Button key={item.id} variant="ghost" className="h-auto w-full justify-start whitespace-normal py-2 text-left" onClick={()=>navigate('assignment',{assignmentId:item.id})}><span><span className="block">{item.title}</span><span className="mt-1 block text-xs text-text-secondary">{formatDate(item.dueAt,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></span></Button>):<p className="text-xs text-text-secondary">Ближайших дедлайнов нет.</p>}<Button className="mt-3 w-full" variant="subtle" onClick={()=>navigate('assignments')}>Открыть домашки</Button></PopoverContent></Popover>}
+ <VisibilitySettings title="Настроить виджеты" items={['Погода','Следующая пара','Дедлайны']} hidden={hidden} onToggle={onToggle}/>
+ </div>;
+}

@@ -1,0 +1,16 @@
+/* Opt-in elevated border. No geometry, shadows, pseudo-elements or Light overrides. */
+.dark [data-gradient-border]:not([data-gradient-border='off']) {
+  --gradient-surface: var(--bg-elevated);
+  border-color: transparent;
+  background-image: var(--gradient-artwork, linear-gradient(transparent, transparent)),
+    linear-gradient(var(--gradient-surface), var(--gradient-surface)),
+    linear-gradient(180deg, var(--border-strong), var(--border-subtle));
+  background-clip: var(--gradient-artwork-clip, padding-box), padding-box, border-box;
+  background-origin: var(--gradient-artwork-origin, padding-box), padding-box, border-box;
+  background-size: var(--gradient-artwork-size, auto), auto, auto;
+  background-position: var(--gradient-artwork-position, 0% 0%), 0% 0%, 0% 0%;
+  background-repeat: var(--gradient-artwork-repeat, repeat), repeat, repeat;
+}
+.dark [data-gradient-surface='composer'] { --gradient-surface: var(--bg-primary); }
+/* Existing accent focus is a real border; do not mask it with the decorative border. */
+.dark [data-gradient-surface='composer']:focus-within { border-color: var(--accent); }

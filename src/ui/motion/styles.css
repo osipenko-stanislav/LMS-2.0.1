@@ -1,0 +1,10 @@
+/* Opt-in overrides only: avoid competing CSS transforms while Motion owns the surface. */
+.lms-motion-surface { transition: none !important; scale: 1 !important; }
+.lms-motion-selection { position: relative; isolation: isolate; }
+.lms-motion-selection > span:not([data-motion-indicator]) { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  [data-lms-motion-scope] *, .lms-motion-selection, .lms-motion-disclosure *, .lms-motion-feedback, .lms-motion-surface, .lms-motion-surface * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

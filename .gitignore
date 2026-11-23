@@ -1,0 +1,14 @@
+node_modules/
+dist/
+storybook-static/
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+# Local references, captures and credentials
+.DS_Store
+artifacts/
+assets/*.zip
+.env
+.env.*
+!.env.example

@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM"], "module": "ESNext", "moduleResolution": "Bundler",
+    "jsx": "react-jsx", "strict": true, "skipLibCheck": true, "noEmit": true, "allowImportingTsExtensions": true,
+    "paths": { "@/*": ["./src/vendor/linear-ui/*"] }
+  },
+  "include": ["vite.config.ts", ".storybook", "playwright.config.ts", "scripts/*.ts"]
+}

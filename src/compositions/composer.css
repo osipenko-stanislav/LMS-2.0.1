@@ -1,0 +1,15 @@
+@keyframes lms-composer-audio-level {
+  0%, 100% { transform: scaleY(.35); }
+  35% { transform: scaleY(1); }
+  65% { transform: scaleY(.5); }
+  85% { transform: scaleY(.8); }
+}
+.lms-composer-audio-bar { animation: lms-composer-audio-level .75s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .lms-composer-audio-bar { animation: none; }
+}
+
+[data-multiline] .lms-composer-input { grid-column: 1 / -1; order: 1; padding: 4px 6px 12px; }
+[data-multiline] .lms-composer-plus { grid-column: 1; order: 2; }
+[data-multiline] .lms-composer-controls { grid-column: 2 / -1; order: 3; }
+[data-multiline] > .col-span-3:not(ul) { order: 4; }

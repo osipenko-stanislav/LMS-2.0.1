@@ -1,0 +1,17 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '../vendor/linear-ui/styles/index.css';
+@import './motion/styles.css';
+@import './gradient-border.css';
+
+
+/* Shared LMS layout modes. */
+.lms-workspace-column,.lms-data-column{width:100%;margin-inline:auto;padding:24px}.lms-workspace-column{max-width:960px}.lms-reading-column{max-width:768px;margin-inline:auto;padding:32px}.lms-reading-column>*{max-width:70ch}.lms-ai-history{min-height:0;flex:1 1 auto;overflow-y:auto;padding:24px}.lms-ai-composer{flex:0 0 auto;padding:8px 24px 24px}.lms-ai-column{width:100%;max-width:768px;min-height:100%;margin-inline:auto}
+@media(max-width:1023px){.lms-reading-column{padding:24px 8px}.lms-workspace-column,.lms-data-column{padding:24px 8px}.lms-ai-history{padding:24px 8px}.lms-ai-composer{padding:8px 8px 24px}.lms-ai-column{padding-inline:8px}}
+@media(max-width:767px){.lms-reading-column>*{padding-inline:8px}}
+
+/* Empty Navigator keeps greeting, composer and prompts together. */
+[data-navigator-home]{overflow-y:auto;justify-content:center}
+[data-navigator-home] .lms-ai-composer{margin-block:auto;padding-block:32px}
