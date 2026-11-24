@@ -13,6 +13,12 @@
 /* -------------------------------------------------------------------------- */
 
 :root {
+  /* Optional elevated gradient-border surface. Applied only by the opt-in
+     data-gradient-border attribute; ordinary surfaces remain unchanged. */
+  --gradient-border-surface: var(--bg-elevated);
+  --gradient-border-start: var(--border-strong);
+  --gradient-border-end: var(--border-subtle);
+  --gradient-border-artwork: linear-gradient(transparent, transparent);
   /* ---- Primitive: brand ------------------------------------------------
      Derived from the accent seed #1664FF (rgb 22 100 255).
        300 = seed lightened ~38%  (subtle text on dark)

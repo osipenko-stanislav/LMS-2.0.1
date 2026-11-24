@@ -1,3 +1,4 @@
+import { adaptCourseCatalog } from '../data/courses';
 import type { FixtureSeed } from './data-source';
 import type { Assignment, ContentId, Course, Entity, Grade, Lesson, ScheduleEvent } from './domain';
 const p = { origin: 'external' as const, source: 'cu.ru', createdAt: '2026-11-23T00:00:00.000Z' };
@@ -33,8 +34,8 @@ const assignmentDefs = [
 const assignments: Entity<Assignment>[] = assignmentDefs.map(([course,title,date],i)=>({ provenance:p, id:id('assignment',`${course}-${i+1}`), courseId:id('course',course), lessonId:lessonRows.find(l=>l.courseId===id('course',course))?.id, title, dueAt:`${date}T12:00:00Z`, maxScore:100 }));
 const courses: Entity<Course>[] = courseDefs.map(([key,title,code])=>({ provenance:p, id:id('course',key), title, code, instructorId:id('user','school-of-technologies'), lessonIds:lessonRows.filter(l=>l.courseId===id('course',key)).map(l=>l.id), assignmentIds:assignments.filter(a=>a.courseId===id('course',key)).map(a=>a.id) }));
 const grades: Entity<Grade>[] = assignments.slice(0,5).map((a,i)=>({ provenance:p, id:id('grade',`${i+1}`), assignmentId:a.id, studentId:student, score:[84,91,78,88,95][i] }));
-export const fixtureSeed: FixtureSeed = { currentUserId:student, content:lessonRows.map(l=>({id:l.contentId as ContentId,text:l.title,format:'markdown' as const})), collections:{ courses, lessons:lessonRows, assignments, grades, scheduleEvents:[
+export const fixtureSeed: FixtureSeed = adaptCourseCatalog({ currentUserId:student, content:lessonRows.map(l=>({id:l.contentId as ContentId,text:l.title,format:'markdown' as const})), collections:{ courses, lessons:lessonRows, assignments, grades, scheduleEvents:[
  {provenance:p,id:id('schedule','algorithms'),courseId:id('course','algorithms'),title:'Алгоритмы и структуры данных 1 · семинар',startsAt:'2026-11-25T15:00:00Z',endsAt:'2026-11-25T16:30:00Z',location:'Аудитория 204'},
  {provenance:p,id:id('schedule','agile'),courseId:id('course','agile'),title:'Командная работа по Agile · семинар',startsAt:'2026-11-26T12:00:00Z',endsAt:'2026-11-26T13:30:00Z',location:'Онлайн'},
  {provenance:p,id:id('schedule','discrete'),courseId:id('course','discrete'),title:'Дискретная математика · лекция',startsAt:'2026-11-27T09:00:00Z',endsAt:'2026-11-27T10:30:00Z',location:'Аудитория 301'},
-] satisfies Entity<ScheduleEvent>[] }};
+] satisfies Entity<ScheduleEvent>[] }});

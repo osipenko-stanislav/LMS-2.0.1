@@ -1,10 +1,10 @@
 /* Opt-in elevated border. No geometry, shadows, pseudo-elements or Light overrides. */
 .dark [data-gradient-border]:not([data-gradient-border='off']) {
-  --gradient-surface: var(--bg-elevated);
+  --gradient-surface: var(--gradient-border-surface, var(--bg-elevated));
   border-color: transparent;
   background-image: var(--gradient-artwork, linear-gradient(transparent, transparent)),
     linear-gradient(var(--gradient-surface), var(--gradient-surface)),
-    linear-gradient(180deg, var(--border-strong), var(--border-subtle));
+    linear-gradient(180deg, var(--gradient-border-start, var(--border-strong)), var(--gradient-border-end, var(--border-subtle)));
   background-clip: var(--gradient-artwork-clip, padding-box), padding-box, border-box;
   background-origin: var(--gradient-artwork-origin, padding-box), padding-box, border-box;
   background-size: var(--gradient-artwork-size, auto), auto, auto;

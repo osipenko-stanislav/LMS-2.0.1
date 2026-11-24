@@ -1,3 +1,4 @@
+import { resolveLegacyLearningParams } from '../data/courses/ids';
 import { Bell, BookOpen, BookOpenText, CalendarDays, CheckSquare, Clock3, FileText, GraduationCap, History, Library, Megaphone, Search, Settings, Sparkles, Table2, Target, type LucideIcon } from 'lucide-react';
 
 export interface NavigationNode {
@@ -69,7 +70,7 @@ export function resolveRoute(path: string) {
     const keys:string[]=[];
     const pattern=entry.path.replace(/:([a-zA-Z]+)/g,(_,key:string)=>{keys.push(key);return '([^/]+)';});
     const match=new RegExp(`^${pattern}/?$`).exec(path);
-    if(match){try{return {entry, params:Object.fromEntries(keys.map((key,index)=>[key,decodeURIComponent(match[index+1]!)]))};}catch{return null;}}
+    if(match){try{return {entry, params:resolveLegacyLearningParams(Object.fromEntries(keys.map((key,index)=>[key,decodeURIComponent(match[index+1]!)])))};}catch{return null;}}
   }
   return null;
 }

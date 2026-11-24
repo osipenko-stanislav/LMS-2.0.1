@@ -3,6 +3,7 @@ import { useReducedMotion } from 'motion/react';
 import { Button, Input, Label, Select, Slider } from '../../ui';
 import { MotionProvider, motionPresets, type MotionPhysics } from '../../ui/motion';
 import { OverlayDemo, SelectionDemo, ExpandDemo, LayoutDemo, FeedbackDemo } from './Patterns';
+import { ThinkingDemo, StreamingReplyDemo, TaskRowsDemo, ApprovalDemo, AnimatedComposerDemo, JellySliderDemo, ToastDemo, StaggerListDemo, ContextCardsDemo } from './Labs';
 
 export const patterns = {
   overlay: { title: 'Overlay', description: 'Origin-aware springs for Dropdown, Popover and Dialog. Radix continues to own positioning, dismissal and focus.', Component: OverlayDemo },
@@ -10,6 +11,15 @@ export const patterns = {
   expand: { title: 'Expand / Collapse', description: 'Natural content height, reversible springs and sections that stay out of the focus order while collapsed.', Component: ExpandDemo },
   layout: { title: 'Layout Transition', description: 'Preserved element identity as rows reorder and containers alternate between compact and expanded geometry.', Component: LayoutDemo },
   feedback: { title: 'Feedback', description: 'A restrained press response, interruptible confirmation and a clean return to the initial state.', Component: FeedbackDemo },
+  thinking: { title: 'Thinking', description: 'A multi-stage AI state with restartable progress and reduced-motion-safe feedback.', Component: ThinkingDemo },
+  streaming: { title: 'Streaming Reply', description: 'Interruptible token arrival with a restrained cursor and replay control.', Component: StreamingReplyDemo },
+  taskRows: { title: 'Task Rows', description: 'Agent work represented as expandable, reversible rows.', Component: TaskRowsDemo },
+  approval: { title: 'Approval Card', description: 'A compact human-in-the-loop confirmation with a morphing success state.', Component: ApprovalDemo },
+  animatedComposer: { title: 'Animated Composer', description: 'Action affordance morphs with the input state while the field remains stable.', Component: AnimatedComposerDemo },
+  jellySlider: { title: 'Jelly Slider', description: 'A control value responds with a compact elastic confirmation.', Component: JellySliderDemo },
+  toast: { title: 'Animated Toast', description: 'Interruptible enter and exit for a transient confirmation.', Component: ToastDemo },
+  staggerList: { title: 'Animated List Reorder', description: 'Stable item identity and layout projection during reorder.', Component: StaggerListDemo },
+  contextCards: { title: 'Context Cards', description: 'Source cards preserve identity while the context set changes.', Component: ContextCardsDemo },
 };
 export interface GalleryProps extends MotionPhysics { pattern: keyof typeof patterns }
 export function MotionGallery({ pattern, stiffness, damping, mass }: GalleryProps) {
@@ -18,7 +28,7 @@ export function MotionGallery({ pattern, stiffness, damping, mass }: GalleryProp
   const [iteration, setIteration] = useState(0);
   useEffect(() => setPhysics({stiffness,damping,mass}), [stiffness,damping,mass]);
   const { title, description, Component } = patterns[pattern];
-  return <main className="min-h-dvh bg-bg-primary px-5 py-10 sm:px-8" data-motion-gallery={pattern}>
+  return <main className="min-h-dvh overflow-x-hidden bg-bg-primary px-5 py-10 sm:px-8" data-motion-gallery={pattern}>
     <div className="mx-auto max-w-5xl">
       <h1 className="text-2xl font-semibold">{title}</h1><p className="mt-2 max-w-2xl text-sm text-text-secondary">{description}</p>
       <section aria-label="Physics controls" className="mt-7 border-y border-border-subtle py-5">

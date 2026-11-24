@@ -111,7 +111,7 @@ export function Section({
         </p>
       )}
       {variants && variants.length > 0 && (
-        <dl className="mt-4 flex flex-col gap-2 rounded-lg border border-border-subtle bg-surface-app/50 p-4 text-sm">
+        <dl className="mt-4 flex flex-col gap-2 rounded-lg border border-border-subtle p-4 text-sm">
           {variants.map((v) => (
             <div key={v.name} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
               <dt className="w-32 shrink-0 font-mono text-xs text-text-primary">
@@ -150,7 +150,7 @@ export function Row({
       )}
       <div
         className={cn(
-          "flex flex-wrap items-center gap-3 rounded-lg border border-border-subtle bg-surface-app/60 p-4",
+          "flex flex-wrap items-center gap-3 rounded-lg border border-border-subtle p-4",
           className,
         )}
       >

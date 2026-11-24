@@ -1,4 +1,8 @@
-import type { CatalogCourseId } from './course';
-export type CatalogLessonId = `catalog-lesson:${string}`;
-export interface CourseModule { id: string; courseId: CatalogCourseId; title: string; order: number; }
-export interface CatalogLesson { id: CatalogLessonId; courseId: CatalogCourseId; moduleId: string; title: string; order: number; summary: string; focus: string[]; readingMinutes: number; }
+import type { Id } from './shared';
+import type { CourseId } from './course';
+export type LessonId = Id<'lesson'>;
+export interface Lesson {
+  id:LessonId; courseId:CourseId; title:string; contentId:string; order:number;
+  moduleId?:string; summary?:string; focus?:string[]; readingMinutes?:number;
+}
+export interface CourseModule { id:string; courseId:CourseId; title:string; order:number; lessonIds:LessonId[] }

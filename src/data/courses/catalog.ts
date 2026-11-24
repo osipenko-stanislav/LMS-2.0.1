@@ -1,7 +1,7 @@
-type CourseArea = 'development' | 'math' | 'general'
-type CourseLevel = 'basic' | 'medium' | 'advanced'
-export type CourseFilter = 'all' | 'required' | 'elective' | 'auditor' | 'internal'
-export type Course = { id: string; title: string; area: CourseArea; category: Exclude<CourseFilter, 'all'>; levels: CourseLevel[]; source: 'handbook'; syllabusUrl?: string }
+import type { CourseArea, CourseLevel, CourseCategory } from '../../core/domain/course';
+export type CourseFilter = 'all' | CourseCategory;
+// External handbook record; converted to the domain Course by the adapter.
+export type ImportedCourse = { id:string; title:string; area:CourseArea; category:CourseCategory; levels:CourseLevel[]; source:'handbook'; syllabusUrl?:string };
 export const handbookUrl = 'https://note.cu.ru/at/2284e072-1f5d-47d2-b4c9-cceb9716ef6f'
 export const courseFilters: { id: CourseFilter; label: string }[] = [
   { id: 'all', label: 'Все' }, { id: 'required', label: 'Обязательные' }, { id: 'elective', label: 'Факультативные' },
@@ -14,7 +14,7 @@ export const levelLabels: Record<CourseLevel, string> = { basic: 'Базовый
 export const featuredCourseId = 'machine-learning'
 export const featuredCourseTitle = 'Машинное обучение (Machine Learning)'
 export const syllabusUrl = 'https://note.cu.ru/at/3340dcf5-0e15-43db-929f-7cdd950753bb'
-export const courses: Course[] = [
+export const courses: ImportedCourse[] = [
   { id: featuredCourseId, title: featuredCourseTitle, area: 'development', category: 'required', levels: [], source: 'handbook', syllabusUrl },
   { id: 'algorithms', title: 'Алгоритмы и структуры данных', area: 'development', category: 'required', levels: ['medium', 'advanced'], source: 'handbook' },
   { id: 'architecture', title: 'Архитектура компьютера и операционные системы I', area: 'development', category: 'required', levels: [], source: 'handbook' },
@@ -34,15 +34,8 @@ export const courses: Course[] = [
 ]
 
 
-export function getCourse(id: string): Course {
+export function getCourse(id: string): ImportedCourse {
   const course = courses.find(item => item.id === id)
   if (!course) throw new Error(`Unknown course: ${id}`)
   return course
-}
-const courseAliases: Record<string, string> = {
-  'Machine Learning': 'machine-learning', 'Программирование на Python': 'python-basic',
-}
-export function resolveCourseId(title: string): string | undefined {
-  const normalized = title.replace(/\s+/g, ' ').trim()
-  return courseAliases[normalized] ?? courses.find(course => course.title === normalized)?.id
 }

@@ -7,7 +7,7 @@ import { Button, DialogTrigger, SidebarTrigger, Popover, PopoverTrigger, Popover
 import { ThemeControl } from '../../ui/ThemeControl';
 export function AppHeader({title,ancestors,params,titleFor,navigate,mobile,onNewChat,onOpenAi,isChat}:{title:string;ancestors:NavigationNode[];params:RouteParams;titleFor:(node:NavigationNode)=>string;navigate:Navigate;mobile:boolean;onNewChat:()=>void;onOpenAi:()=>void;isChat:boolean}){
  const parent=ancestors.at(-1);
- return <header className="relative grid min-h-14 shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2 sm:gap-3 sm:px-5">
+ return <header data-shell-header="" className="relative grid min-h-14 shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2 sm:gap-3 sm:px-5">
   <div className="flex min-w-0 items-center gap-2 md:max-w-[25%]">
   {mobile?<DialogTrigger asChild><Button variant="ghost" iconOnly aria-label="Открыть меню"><PanelLeft className="size-4"/></Button></DialogTrigger>:<SidebarTrigger aria-label="Свернуть или развернуть меню"/>}
   {parent&&<Button variant="ghost" iconOnly aria-label="Назад" onClick={()=>navigate(parent.id as NavigationId,params)}><ArrowLeft className="size-4"/></Button>}

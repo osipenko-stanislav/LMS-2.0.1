@@ -1,7 +1,7 @@
 import type { DataSource, Collections } from './data-source';
-import type { ContentId, Lesson, Provenance, TextContent } from './domain';
+import type { ContentId, LearningMaterial } from './domain';
 import { dispatchAction, type Action, type ActionResult } from './actions';
-export interface MaterialView { id: ContentId; lessonId: Lesson['id']; courseId: Lesson['courseId']; title: string; text: string; format: TextContent['format']; provenance: Provenance }
+export type MaterialView = LearningMaterial;
 export interface WorkspaceViewModel extends Collections { materials: MaterialView[] }
 export type DataView<T> = { state:'loading' } | { state:'error';error:string } | { state:'ready';data:T };
 export interface WorkspaceActions { dispatch(action:Action):Promise<ActionResult> }

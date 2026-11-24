@@ -1,5 +1,5 @@
-import type { Assignment, ContentId, Course, Entity, Grade, Lesson, ScheduleEvent, TextContent, UserId } from './domain';
-export type Collections = { courses: Entity<Course>[]; lessons: Entity<Lesson>[]; assignments: Entity<Assignment>[]; grades: Entity<Grade>[]; scheduleEvents: Entity<ScheduleEvent>[] };
+import type { Assignment, ContentId, Course, CourseId, CourseModule, Entity, Grade, Lesson, ScheduleEvent, TextContent, UserId } from './domain';
+export type Collections = { catalogCourseIds?:CourseId[]; studyPlanCourseIds?:CourseId[]; modules?:CourseModule[]; courses: Entity<Course>[]; lessons: Entity<Lesson>[]; assignments: Entity<Assignment>[]; grades: Entity<Grade>[]; scheduleEvents: Entity<ScheduleEvent>[] };
 export interface DataSource {
   getCollections(): Promise<Collections>;
   getTextContent(id: ContentId): Promise<TextContent | undefined>;

@@ -1,1 +1,1 @@
-export { migratedCourses, getMigratedCourse, getMigratedLesson } from './index';
+export { adaptCourseCatalog } from './index';

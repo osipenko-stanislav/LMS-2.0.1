@@ -52,6 +52,13 @@ const STATUS = [
   ["Info", "--info"],
 ] as const;
 
+const GRADIENT_BORDER = [
+  ["Surface", "--gradient-border-surface"],
+  ["Start", "--gradient-border-start"],
+  ["End", "--gradient-border-end"],
+  ["Artwork", "--gradient-border-artwork"],
+] as const;
+
 const RADII = [
   ["xs", "--radius-xs"],
   ["sm", "--radius-sm"],
@@ -78,6 +85,7 @@ export function Tokens() {
     ...BORDERS,
     ...ACCENT,
     ...STATUS,
+    ...GRADIENT_BORDER,
     ...RADII,
     ...TYPE.map((t) => [t[0], t[2]] as const),
   ].map(([, v]) => v);
@@ -125,6 +133,14 @@ export function Tokens() {
         </Row>
       </Section>
 
+      <Section title="Optional Gradient Borders" description="Opt-in elevated surface tokens. Components must explicitly use data-gradient-border.">
+        <Row className="grid grid-cols-2 gap-4">
+          {GRADIENT_BORDER.map(([name, v]) => (
+            <Swatch key={v} name={name} varName={v} value={resolved[v]} border />
+          ))}
+        </Row>
+      </Section>
+
       <Section title="Radius">
         <Row>
           {RADII.map(([name, v]) => (
@@ -142,7 +158,7 @@ export function Tokens() {
       </Section>
 
       <Section title="Shadows">
-        <Row className="bg-surface-panel">
+        <Row>
           {(["shadow-xs", "shadow-sm", "shadow-md", "shadow-popover"] as const).map(
             (s) => (
               <div key={s} className="flex flex-col items-center gap-2">

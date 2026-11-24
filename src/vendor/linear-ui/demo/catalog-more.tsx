@@ -1314,7 +1314,7 @@ export function ToastPage() {
           <Button
             variant="secondary"
             onClick={() =>
-              toast("Archived", { action: { label: "Undo", onClick: () => toast("Restored") } })
+              toast("Archived", { action: { label: "Undo", onClick: () => toast.success("Restored") } })
             }
           >
             With action
